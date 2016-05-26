@@ -1,0 +1,15 @@
+<div class="jumbo outJumbo">
+    <div>Output :</div>
+    <div id="output">{{ answer }}</div>
+</div>
+
+<script type="text/javascript">
+    if ('speechSynthesis' in window) {
+    var sud = document.getElementById("output").innerHTML;
+    var msg = new SpeechSynthesisUtterance(sud);
+    msg.lang = "en-US";
+    msg.rate = 1.1;
+    window.speechSynthesis.speak(msg);
+    // Synthesis support. Make your web apps talk!
+    }
+</script>
