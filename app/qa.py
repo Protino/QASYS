@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# Copyright (c) 2012, Machinalis S.R.L.
-# This file is part of quepy and is distributed under the Modified BSD License.
-# You should have received a copy of license in the LICENSE file.
-
 """
 Main script for DBpedia quepy.
 """
@@ -17,6 +12,7 @@ import urllib2
 
 import quepy
 from SPARQLWrapper import SPARQLWrapper, JSON
+from dbpedia import pronouns
 
 sparql = SPARQLWrapper("http://dbpedia.org/sparql")
 dbpedia = quepy.install("dbpedia")
@@ -54,7 +50,7 @@ def print_literal(results, target, metadata=None):
         if metadata:
             output += metadata.format(literal) + "\n"
         else:
-            output += literal + "&lt;br/&gt;"
+            output += literal + "\n"
 
 
 def print_time(results, target, metadata=None):
@@ -170,7 +166,7 @@ def q2a(question):
         metadata = None
 
     if query is None:
-        return "Query could not be generated for that question:(\n"
+        return "Query could not be generated for that question:(\n", -1
 
     print "Query Generated"
     print query
@@ -184,24 +180,33 @@ def q2a(question):
         try:
             results = sparql.query().convert()
             if not results["results"]["bindings"]:
-                return "No answer found in database:("
+                return "No answer found in database:(", -1
 
             print "Results in JSON format"
             print results
 
             print_handlers[query_type](results, target, metadata)
 
+            if pronouns.fetchHisFromAnswers:
+                pronouns.his = pronouns.her = output
+            if pronouns.fetchItsFromAnswers:
+                print "YEAY"
+                pronouns.its = output
+
+            print pronouns.fetchItsFromAnswers
             print "Cleaned Answer"
             print output
+            print "State of pronouns : "
+            print "its : " + pronouns.its + "his" + pronouns.his
 
             # print results["results"]["bindings"][0]["x2"]["value"]
             # return print_handlers[query_type](results, target, metadata)
-            return output
+            return output, 1
         except urllib2.HTTPError, err:
             if err.code == 502:
-                return "Cannot reach the database \n Looks like DBpedia SPARQL Endpoint is under maintenance. Please try again later. "
+                return "Cannot reach the database \n Looks like DBpedia SPARQL Endpoint is under maintenance. Please try again later. ", -1
         except:
-            return "Network error"
+            return "Network error", -1
 
 
 if __name__ == "__main__":

@@ -18,6 +18,10 @@ if __name__ == "__main__":
             question.replace("her", pronouns.her)
             question = question.replace("he", pronouns.his)
             question.replace("she", pronouns.her)
-        qa.q2a(question)
+
+        try:
+            qa.q2a(question)
+        except:
+            print ""
 
 

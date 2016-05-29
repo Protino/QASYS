@@ -89,7 +89,7 @@ class CapitalOf(FixedRelation):
 
 
 class LanguageOf(FixedRelation):
-    relation = "dbpprop:officialLanguages"
+    relation = "dbpedia-owl:language"
     reverse = True
 
 
