@@ -1,0 +1,22 @@
+<div class="form_container">
+    <form class="form" action="/query" method="post">
+        <label>Question</label>
+        <input type="text" name="question" placeholder="Enter your question here" autofocus>
+        <input type="submit" value="Ask">
+    </form>
+    <script src="../../static/js/jquery.js"></script>
+    <script>
+        $(document).ready(function (e) {
+            function test(){
+                var t = $('#output').text();
+                if(t == '' || t == ' '){
+                    $('.outJumbo').css("display","none");
+                }
+            }
+            test();
+            $('.a').click(function(e){
+                test();
+            });
+        });
+    </script>
+</div>

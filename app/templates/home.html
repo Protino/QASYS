@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+      <h2>QASYS</h2>
+      <h4>A QA system over Open Knowledge base </h4>
+  </div>
+    {% include "partials/form.html" %}
+    <div class="output_container">
+    {% include "partials/output.html" %}
+    </div>
+{% endblock %}
