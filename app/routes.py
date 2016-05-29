@@ -12,6 +12,7 @@ debug = False
 
 cache = {}
 
+
 @app.route('/')
 def home():
     if debug:
@@ -26,13 +27,12 @@ def about():
 
 @app.route('/query', methods=['POST'])
 def query():
+    error_code = 0
     if debug:
         question = debug_question
     else:
         question = request.form['question']
     # form validation remaining js or here itself
-
-
 
     if question == "":
         return redirect('/')
@@ -54,18 +54,26 @@ def query():
     if prp:
         if pronouns.his:
             question = re.sub(r'\bhe\b', pronouns.his, question)
+            question = re.sub(r'\bshe\b', pronouns.her, question)
+            question = re.sub(r'\bhis\b', pronouns.his, question)
+            question = re.sub(r'\bher\b', pronouns.her, question)
+            question = re.sub(r'\bits\b', pronouns.its, question)
+
+            print 'Corrected anaphora : ' + question
         else:
-            print "Who does that person refer to?"
+            print "I do not know whom are you referring?"
 
     # search within cache first
     if question in cache.keys():
+        print 'Outputting cached answered'
         answer = cache[question]
     else:
         # send the question to qa module and retrieve answer back.
-        answer = qa.q2a(question)
+        answer, error_code = qa.q2a(question)
 
     # cache the results
-    cache[question] = answer
+    if error_code > 0:
+        cache[question] = answer
     if not debug:
         return render_template('home.html', answer=answer)
 
