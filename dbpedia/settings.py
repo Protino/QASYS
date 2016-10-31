@@ -12,7 +12,7 @@ Settings.
 LANGUAGE = "sparql"
 
 # NLTK config
-NLTK_DATA_PATH = ["/home/arun/nltk_data"]  # List of paths with NLTK data
+NLTK_DATA_PATH = ["/home/gurupad/nltk_data"]  # List of paths with NLTK data
 
 # Encoding config
 DEFAULT_ENCODING = "utf-8"

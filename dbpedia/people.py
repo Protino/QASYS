@@ -56,6 +56,9 @@ class HowOldIsQuestion(QuestionTemplate):
 class WhereIsFromQuestion(QuestionTemplate):
     """
     Ex: "Where is Bill Gates from?"
+
+    //todo : What is his birthplace?
+    //todo : 
     """
 
     regex = Lemmas("where be") + Person() + Lemma("from") + \
